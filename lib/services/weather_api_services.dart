@@ -6,6 +6,7 @@ import 'http_error_handler.dart';
 import '../constants/constants.dart';
 import '../models/direct_geocoding.dart';
 import '../exceptions/weather_exception.dart';
+import '../models/weather.dart';
 
 class WeatherApiServices {
   final http.Client httpClient;
@@ -21,8 +22,7 @@ class WeatherApiServices {
           'q': city,
           'limit': kLimit,
           'appid': dotenv.env['APPID']
-        }
-    );
+        });
     try {
       final http.Response response = await httpClient.get(uri);
       if (response.statusCode != 200) {
@@ -30,9 +30,7 @@ class WeatherApiServices {
       }
       final responseBody = json.decode(response.body);
       if (responseBody.isEmty) {
-        throw WeatherException(
-            message: 'Cannot get location of the $city'
-        );
+        throw WeatherException(message: 'Cannot get location of the $city');
       }
       final directGeocoding = DirectGeocoding.fromJson(responseBody);
       return directGeocoding;
@@ -41,4 +39,23 @@ class WeatherApiServices {
     }
   }
 
+  Future<Weather> getWeather(DirectGeocoding directGeocoding) async {
+    final Uri uri = Uri(path: '/data/2.5/weather', queryParameters: {
+      'lat': '${directGeocoding.lat}',
+      'lon': '${directGeocoding.lon}',
+      'units': kUnit,
+      'appid': dotenv.env['APPID'],
+    });
+    try {
+      final http.Response response = await httpClient.get(uri);
+      if (response.statusCode != 200) {
+        throw Exception(httpErrorHandler(response));
+      }
+      final weatherJson = json.decode(response.body);
+      final Weather weather = Weather.fromJson(weatherJson);
+      return weather;
+    } catch (e) {
+      rethrow;
+    }
+  }
 }
