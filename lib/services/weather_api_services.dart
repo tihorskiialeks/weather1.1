@@ -31,7 +31,7 @@ class WeatherApiServices {
       final responseBody = json.decode(response.body);
       if (responseBody.isEmty) {
         throw WeatherException(
-            message: 'Cannot get location of the $city';
+            message: 'Cannot get location of the $city'
         );
       }
       final directGeocoding = DirectGeocoding.fromJson(responseBody);
@@ -40,4 +40,5 @@ class WeatherApiServices {
       rethrow;
     }
   }
+
 }
