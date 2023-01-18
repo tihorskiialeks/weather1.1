@@ -17,7 +17,7 @@ class WeatherApiServices {
     Uri uri = Uri(
         scheme: 'https',
         host: kApiHost,
-        path: 'geo/1.0/direct',
+        path: '/geo/1.0/direct',
         queryParameters: {
           'q': city,
           'limit': kLimit,
@@ -29,7 +29,8 @@ class WeatherApiServices {
         throw Exception(httpErrorHandler(response));
       }
       final responseBody = json.decode(response.body);
-      if (responseBody.isEmty) {
+
+      if (responseBody.isEmpty) {
         throw WeatherException(message: 'Cannot get location of the $city');
       }
       final directGeocoding = DirectGeocoding.fromJson(responseBody);
@@ -40,7 +41,11 @@ class WeatherApiServices {
   }
 
   Future<Weather> getWeather(DirectGeocoding directGeocoding) async {
-    final Uri uri = Uri(path: '/data/2.5/weather', queryParameters: {
+    final Uri uri = Uri(
+      scheme: 'https',
+        path: '/data/2.5/weather',
+        host: kApiHost,
+        queryParameters: {
       'lat': '${directGeocoding.lat}',
       'lon': '${directGeocoding.lon}',
       'units': kUnit,
