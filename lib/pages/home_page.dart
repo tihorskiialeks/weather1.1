@@ -12,14 +12,6 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  @override
-  void initState() {
-    super.initState();
-    _fetchWeather();
-  }
-  _fetchWeather(){
-    WeatherRepository(weatherApiServices: WeatherApiServices(httpClient: http.Client())).fetchWeather('london');
-  }
 
   @override
   Widget build(BuildContext context) {
