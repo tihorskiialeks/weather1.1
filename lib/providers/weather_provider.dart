@@ -21,11 +21,11 @@ class WeatherProvider with ChangeNotifier {
     try {
       final Weather weather = await repository.fetchWeather(city);
       _state = _state.copyWith(weather: weather, status: WeatherStatus.loaded);
-      //todo print(state) to check if it works properly;
+      print('state = $state');
       notifyListeners();
     } on CustomError catch (e) {
       _state = _state.copyWith(status: WeatherStatus.error, error: e);
-      //todo print(state) to check if it works properly;
+      print('state = $state');
       notifyListeners();
     }
   }
