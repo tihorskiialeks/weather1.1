@@ -14,18 +14,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  @override
-  void initState() {
-    _fetchWeather();
-    super.initState();
-  }
-
-  _fetchWeather() {
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      context.read<WeatherProvider>().fetchWeather('london');
-    });
-  }
-
+ 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
