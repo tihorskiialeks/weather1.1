@@ -30,6 +30,9 @@ class _HomePageState extends State<HomePage> {
                   return SearchPage();
                 }));
                 print(_city);
+                if(_city !=null){
+                  context.read<WeatherProvider>().fetchWeather(_city!);
+                }
               },
               icon: Icon(Icons.search)),
         ],
