@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:http/http.dart' as http;
 import 'package:weather1/pages/search_page.dart';
 import 'package:weather1/providers/weather_provider.dart';
+import '../widgets/error_dialog.dart';
 import '../services/weather_api_services.dart';
 import '../repositories/weather_repository.dart';
 
@@ -16,6 +17,27 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   String? _city;
+  late final WeatherProvider _weatherProvider;
+
+  @override
+  void initState() {
+    super.initState();
+    _weatherProvider = context.read<WeatherProvider>();
+    _weatherProvider.addListener(_registerListener);
+  }
+
+  @override
+  void dispose() {
+    _weatherProvider.removeListener(_registerListener);
+    super.dispose();
+  }
+
+  void _registerListener() {
+    final WeatherState ws = context.read<WeatherProvider>().state;
+    if (ws.status == WeatherStatus.error) {
+      errorDialog(context, ws.error.errMsg);
+    }
+  }
 
   Widget _showWeather() {
     final state = context.watch<WeatherProvider>().state;
@@ -77,11 +99,8 @@ class _HomePageState extends State<HomePage> {
         ),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text('temperature C - F')
-          ],
+          children: [Text('temperature C - F')],
         ),
-
       ],
     );
   }
