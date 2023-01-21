@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:http/http.dart' as http;
 import 'package:weather1/pages/search_page.dart';
+import 'package:weather1/pages/settings_page.dart';
+import 'package:weather1/providers/provider.dart';
 import 'package:weather1/providers/weather_provider.dart';
 import '../widgets/error_dialog.dart';
 import '../services/weather_api_services.dart';
@@ -37,6 +39,14 @@ class _HomePageState extends State<HomePage> {
     if (ws.status == WeatherStatus.error) {
       errorDialog(context, ws.error.errMsg);
     }
+  }
+
+  String showTemperature(double temperature) {
+    final tempUnit = context.watch<TempSettingsProvider>().state.tempUnit;
+    if (tempUnit == TempUnit.fahrenheit) {
+      return '${((temperature * 9 / 5) + 32).toStringAsFixed(2)}℉';
+    }
+    return '${temperature.toStringAsFixed(2)}\u2103';
   }
 
   Widget _showWeather() {
@@ -89,7 +99,7 @@ class _HomePageState extends State<HomePage> {
               width: 10,
             ),
             Text(
-              '${state.weather.country}',
+              state.weather.country,
               style: const TextStyle(fontSize: 18),
             ),
           ],
@@ -99,7 +109,33 @@ class _HomePageState extends State<HomePage> {
         ),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: [Text('temperature C - F')],
+          children: [
+            Text(
+              showTemperature(state.weather.temp),
+              style: const TextStyle(
+                fontSize: 30,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            const SizedBox(
+              width: 20,
+            ),
+            Column(
+              children: [
+                Text(
+                  showTemperature(state.weather.tempMin),
+                  style: const TextStyle(fontSize: 16),
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                Text(
+                  showTemperature(state.weather.tempMax),
+                  style: const TextStyle(fontSize: 16),
+                )
+              ],
+            )
+          ],
         ),
       ],
     );
@@ -123,6 +159,12 @@ class _HomePageState extends State<HomePage> {
                 }
               },
               icon: Icon(Icons.search)),
+          IconButton(
+              onPressed: () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => SettingsPage()));
+              },
+              icon: Icon(Icons.settings))
         ],
       ),
       body: _showWeather(),
