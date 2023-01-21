@@ -17,6 +17,75 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   String? _city;
 
+  Widget _showWeather() {
+    final state = context.watch<WeatherProvider>().state;
+    if (state.status == WeatherStatus.initial) {
+      return const Center(
+        child: Text(
+          'Select a city',
+          style: TextStyle(fontSize: 20),
+        ),
+      );
+    }
+    if (state.status == WeatherStatus.loading) {
+      return const Center(
+        child: CircularProgressIndicator(),
+      );
+    }
+    if (state.status == WeatherStatus.error && state.weather.name == '') {
+      return const Center(
+        child: Text(
+          'Select a city',
+          style: TextStyle(fontSize: 20),
+        ),
+      );
+    }
+    return ListView(
+      children: [
+        SizedBox(
+          height: MediaQuery.of(context).size.height / 6,
+        ),
+        Text(
+          state.weather.name,
+          textAlign: TextAlign.center,
+          style: const TextStyle(
+            fontSize: 40,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        const SizedBox(
+          height: 10,
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              TimeOfDay.fromDateTime(state.weather.lastUpdated).format(context),
+              style: TextStyle(fontSize: 18),
+            ),
+            const SizedBox(
+              width: 10,
+            ),
+            Text(
+              '${state.weather.country}',
+              style: const TextStyle(fontSize: 18),
+            ),
+          ],
+        ),
+        const SizedBox(
+          height: 60,
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text('temperature C - F')
+          ],
+        ),
+
+      ],
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -30,16 +99,14 @@ class _HomePageState extends State<HomePage> {
                   return SearchPage();
                 }));
                 print(_city);
-                if(_city !=null){
+                if (_city != null) {
                   context.read<WeatherProvider>().fetchWeather(_city!);
                 }
               },
               icon: Icon(Icons.search)),
         ],
       ),
-      body: const Center(
-        child: Text('home'),
-      ),
+      body: _showWeather(),
     );
   }
 }
