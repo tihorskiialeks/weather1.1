@@ -42,12 +42,12 @@ class MyApp extends StatelessWidget {
             ) =>
                 themeProvider!..update(weatherProvider)),
       ],
-      child: MaterialApp(
+      builder: (context, _) => MaterialApp(
         title: 'Weather App',
         debugShowCheckedModeBanner: false,
-        theme: ThemeData(
-          primarySwatch: Colors.blue,
-        ),
+        theme: context.watch<ThemeProvider>().state.appTheme == AppTheme.light
+            ? ThemeData.light()
+            : ThemeData.dark(),
         home: const HomePage(),
       ),
     );
