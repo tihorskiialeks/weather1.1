@@ -2,6 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:http/http.dart' as http;
+import 'package:recase/recase.dart';
+import 'package:weather1/constants/constants.dart';
 import 'package:weather1/pages/search_page.dart';
 import 'package:weather1/pages/settings_page.dart';
 import 'package:weather1/providers/provider.dart';
@@ -47,6 +49,24 @@ class _HomePageState extends State<HomePage> {
       return '${((temperature * 9 / 5) + 32).toStringAsFixed(2)}℉';
     }
     return '${temperature.toStringAsFixed(2)}\u2103';
+  }
+
+  Widget showIcon(String icon) {
+    return FadeInImage.assetNetwork(
+      placeholder: 'assets/images/loading.gif',
+      image: 'http://$kIconHost/img/wn/$icon@4x.png',
+      width: 96,
+      height: 96,
+    );
+  }
+
+  Widget formatText(String description) {
+    final formatedString = description.titleCase;
+    return Text(
+      formatedString,
+      style: const TextStyle(fontSize: 24),
+      textAlign: TextAlign.center,
+    );
   }
 
   Widget _showWeather() {
@@ -137,6 +157,21 @@ class _HomePageState extends State<HomePage> {
             )
           ],
         ),
+        const SizedBox(
+          height: 40,
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            const Spacer(),
+            showIcon(state.weather.icon),
+            Expanded(
+              flex: 3,
+              child: formatText(state.weather.description),
+            ),
+            const Spacer(),
+          ],
+        )
       ],
     );
   }
