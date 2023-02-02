@@ -7,19 +7,12 @@ class TempSettingsState extends Equatable {
 
   TempSettingsState({this.tempUnit = TempUnit.celsius});
 
-  factory TempSettingsState.initial() {
-    return TempSettingsState();
-  }
-
   @override
   List<Object?> get props => [tempUnit];
 
   @override
-  bool get stringify {
-    return true;
-  }
+  bool get stringify => true;
 
-  TempSettingsState copyWith({TempUnit? tempUnit}) {
-    return TempSettingsState(tempUnit: tempUnit ?? this.tempUnit);
-  }
+  TempSettingsState copyWith({TempUnit? tempUnit}) =>
+      TempSettingsState(tempUnit: tempUnit ?? this.tempUnit);
 }
