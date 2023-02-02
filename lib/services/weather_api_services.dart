@@ -44,15 +44,15 @@ class WeatherApiServices {
     return CityCoordinates.fromJson(responseBody);
   }
 
-  Future<Weather> getWeather(CityCoordinates directGeocoding) async {
+  Future<Weather> getWeather(CityCoordinates cityCoordinates) async {
     final http.Response response = await httpClient.get(
       Uri(
           scheme: 'https',
           path: '/data/2.5/weather',
           host: kApiHost,
           queryParameters: {
-            'lat': '${directGeocoding.lat}',
-            'lon': '${directGeocoding.lon}',
+            'lat': '${cityCoordinates.lat}',
+            'lon': '${cityCoordinates.lon}',
             'units': kUnit,
             'appid': dotenv.env['APPID'],
           }),
@@ -60,8 +60,9 @@ class WeatherApiServices {
     if (response.statusCode != 200) {
       throw Exception(_httpErrorHandler(response));
     }
-    final weatherJson = json.decode(response.body);
-    final Weather weather = Weather.fromJson(weatherJson);
+
+    final Weather weather = Weather.fromJson(json.decode(response.body))
+        .copyWith(name: cityCoordinates.name, country: cityCoordinates.country);
     return weather;
   }
 }
