@@ -72,9 +72,9 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    final NavigatorState navigator = Navigator.of(context);
     Future<void> searchCity() async {
-      _city =
-          await Navigator.push(context, MaterialPageRoute(builder: (context) {
+      _city = await navigator.push(MaterialPageRoute(builder: (context) {
         return SearchPage();
       }));
       print(_city);
@@ -90,7 +90,7 @@ class _HomePageState extends State<HomePage> {
           IconButton(onPressed: searchCity, icon: Icon(Icons.search)),
           IconButton(
               onPressed: () {
-                Navigator.push(context,
+                navigator.push(
                     MaterialPageRoute(builder: (context) => SettingsPage()));
               },
               icon: Icon(Icons.settings))

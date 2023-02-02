@@ -13,11 +13,10 @@ class ThemeProvider with ChangeNotifier {
 
   void update(WeatherProvider wp) {
     final Weather? weather = wp.state.weather;
-    if (weather != null && weather.temp > kWarmOrNot) {
-      _state = _state.copyWith(appTheme: AppTheme.light);
-    } else {
-      _state = _state.copyWith(appTheme: AppTheme.dark);
+    if (weather != null) {
+      _state = _state.copyWith(
+          appTheme: weather.temp > kWarmOrNot ? AppTheme.light : AppTheme.dark);
+      notifyListeners();
     }
-    notifyListeners();
   }
 }
