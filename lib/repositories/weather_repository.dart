@@ -17,8 +17,6 @@ class WeatherRepository {
 
       return await weatherApiServices.getWeather(cityCoordinates);
     } on WeatherException catch (e) {
-      throw CustomError(errMsg: e.message);
-    } catch (e) {
       throw CustomError(errMsg: e.toString());
     }
   }
