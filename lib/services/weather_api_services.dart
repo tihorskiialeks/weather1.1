@@ -13,7 +13,7 @@ class WeatherApiServices {
 
   WeatherApiServices({required this.httpClient});
 
-  Future<DirectGeocoding> getDirectGeocoding(String city) async {
+  Future<CityCoordinates> getCityCoordinates(String city) async {
     Uri uri = Uri(
         scheme: 'https',
         host: kApiHost,
@@ -33,14 +33,14 @@ class WeatherApiServices {
       if (responseBody.isEmpty) {
         throw WeatherException(message: 'Cannot get location of the $city');
       }
-      final directGeocoding = DirectGeocoding.fromJson(responseBody);
+      final directGeocoding = CityCoordinates.fromJson(responseBody);
       return directGeocoding;
     } catch (e) {
       rethrow;
     }
   }
 
-  Future<Weather> getWeather(DirectGeocoding directGeocoding) async {
+  Future<Weather> getWeather(CityCoordinates directGeocoding) async {
     final Uri uri = Uri(
       scheme: 'https',
         path: '/data/2.5/weather',
