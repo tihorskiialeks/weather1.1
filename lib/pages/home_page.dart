@@ -70,6 +70,37 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
+
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Weather'),
+        actions: [
+          IconButton(
+              onPressed: () async {
+                _city = await Navigator.push(context,
+                    MaterialPageRoute(builder: (context) {
+                  return SearchPage();
+                }));
+                print(_city);
+                if (_city != null) {
+                  context.read<WeatherProvider>().fetchWeather(_city!);
+                }
+              },
+              icon: Icon(Icons.search)),
+          IconButton(
+              onPressed: () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => SettingsPage()));
+              },
+              icon: Icon(Icons.settings))
+        ],
+      ),
+      body: _showWeather(),
+    );
+  }
   Widget _showWeather() {
     final state = context.watch<WeatherProvider>().state;
     if (state.status == WeatherStatus.initial) {
@@ -101,6 +132,8 @@ class _HomePageState extends State<HomePage> {
         SizedBox(
           height: MediaQuery.of(context).size.height / 6,
         ),
+
+        /// City name
         Text(
           weather.name,
           textAlign: TextAlign.center,
@@ -112,6 +145,8 @@ class _HomePageState extends State<HomePage> {
         const SizedBox(
           height: 10,
         ),
+
+        /// Last update time and country
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -131,6 +166,8 @@ class _HomePageState extends State<HomePage> {
         const SizedBox(
           height: 60,
         ),
+
+        /// Current temperature
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -144,6 +181,8 @@ class _HomePageState extends State<HomePage> {
             const SizedBox(
               width: 20,
             ),
+
+            /// Min and Max temperature during a day
             Column(
               children: [
                 Text(
@@ -164,6 +203,8 @@ class _HomePageState extends State<HomePage> {
         const SizedBox(
           height: 40,
         ),
+
+        ///Image and description of the weather
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
@@ -177,36 +218,6 @@ class _HomePageState extends State<HomePage> {
           ],
         )
       ],
-    );
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Weather'),
-        actions: [
-          IconButton(
-              onPressed: () async {
-                _city = await Navigator.push(context,
-                    MaterialPageRoute(builder: (context) {
-                  return SearchPage();
-                }));
-                print(_city);
-                if (_city != null) {
-                  context.read<WeatherProvider>().fetchWeather(_city!);
-                }
-              },
-              icon: Icon(Icons.search)),
-          IconButton(
-              onPressed: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => SettingsPage()));
-              },
-              icon: Icon(Icons.settings))
-        ],
-      ),
-      body: _showWeather(),
     );
   }
 }
