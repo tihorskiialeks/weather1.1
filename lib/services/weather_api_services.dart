@@ -2,11 +2,19 @@ import 'dart:convert';
 
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
-import 'http_error_handler.dart';
 import '../constants/constants.dart';
 import '../models/direct_geocoding.dart';
 import '../exceptions/weather_exception.dart';
 import '../models/weather.dart';
+
+String _httpErrorHandler(http.Response response) {
+  final statusCode = response.statusCode;
+  final reasonPhrase = response.reasonPhrase;
+
+  final String errorMessage =
+      'Request failed\nStatus code: $statusCode\nReason: $reasonPhrase';
+  return errorMessage;
+}
 
 class WeatherApiServices {
   final http.Client httpClient;
@@ -26,7 +34,7 @@ class WeatherApiServices {
           }),
     );
     if (response.statusCode != 200) {
-      throw Exception(httpErrorHandler(response));
+      throw Exception(_httpErrorHandler(response));
     }
     final responseBody = json.decode(response.body);
 
@@ -50,7 +58,7 @@ class WeatherApiServices {
           }),
     );
     if (response.statusCode != 200) {
-      throw Exception(httpErrorHandler(response));
+      throw Exception(_httpErrorHandler(response));
     }
     final weatherJson = json.decode(response.body);
     final Weather weather = Weather.fromJson(weatherJson);
