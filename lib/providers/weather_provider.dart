@@ -8,7 +8,7 @@ import '../repositories/weather_repository.dart';
 part 'weather_state.dart';
 
 class WeatherProvider with ChangeNotifier {
-  WeatherState _state = WeatherState.initial();
+  WeatherState _state = WeatherState();
   final WeatherRepository repository;
 
   WeatherState get state => _state;

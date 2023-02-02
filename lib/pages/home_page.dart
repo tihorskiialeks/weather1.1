@@ -8,6 +8,7 @@ import 'package:weather1/pages/search_page.dart';
 import 'package:weather1/pages/settings_page.dart';
 import 'package:weather1/providers/provider.dart';
 import 'package:weather1/providers/weather_provider.dart';
+import '../models/weather.dart';
 import '../widgets/error_dialog.dart';
 import '../services/weather_api_services.dart';
 import '../repositories/weather_repository.dart';
@@ -84,7 +85,10 @@ class _HomePageState extends State<HomePage> {
         child: CircularProgressIndicator(),
       );
     }
-    if (state.status == WeatherStatus.error && state.weather.name == '') {
+    final Weather? weather = state.weather;
+    if (weather == null ||
+        state.status == WeatherStatus.error ||
+        weather.name == '') {
       return const Center(
         child: Text(
           'Select a city',
@@ -98,7 +102,7 @@ class _HomePageState extends State<HomePage> {
           height: MediaQuery.of(context).size.height / 6,
         ),
         Text(
-          state.weather.name,
+          weather.name,
           textAlign: TextAlign.center,
           style: const TextStyle(
             fontSize: 40,
@@ -112,14 +116,14 @@ class _HomePageState extends State<HomePage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
-              TimeOfDay.fromDateTime(state.weather.lastUpdated).format(context),
+              TimeOfDay.fromDateTime(weather.lastUpdated).format(context),
               style: TextStyle(fontSize: 18),
             ),
             const SizedBox(
               width: 10,
             ),
             Text(
-              state.weather.country,
+              weather.country,
               style: const TextStyle(fontSize: 18),
             ),
           ],
@@ -131,7 +135,7 @@ class _HomePageState extends State<HomePage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
-              showTemperature(state.weather.temp),
+              showTemperature(weather.temp),
               style: const TextStyle(
                 fontSize: 30,
                 fontWeight: FontWeight.bold,
@@ -143,14 +147,14 @@ class _HomePageState extends State<HomePage> {
             Column(
               children: [
                 Text(
-                  showTemperature(state.weather.tempMin),
+                  showTemperature(weather.tempMin),
                   style: const TextStyle(fontSize: 16),
                 ),
                 const SizedBox(
                   height: 10,
                 ),
                 Text(
-                  showTemperature(state.weather.tempMax),
+                  showTemperature(weather.tempMax),
                   style: const TextStyle(fontSize: 16),
                 )
               ],
@@ -164,10 +168,10 @@ class _HomePageState extends State<HomePage> {
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
             const Spacer(),
-            showIcon(state.weather.icon),
+            showIcon(weather.icon),
             Expanded(
               flex: 3,
-              child: formatText(state.weather.description),
+              child: formatText(weather.description),
             ),
             const Spacer(),
           ],
