@@ -4,7 +4,7 @@ import 'package:flutter/cupertino.dart';
 part 'temp_settings_state.dart';
 
 class TempSettingsProvider with ChangeNotifier {
-  TempSettingsState _state = TempSettingsState();
+  TempSettingsState _state = const TempSettingsState();
 
   get state => _state;
 

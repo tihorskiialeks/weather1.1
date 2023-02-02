@@ -5,7 +5,7 @@ enum TempUnit { celsius, fahrenheit }
 class TempSettingsState extends Equatable {
   final TempUnit tempUnit;
 
-  TempSettingsState({this.tempUnit = TempUnit.celsius});
+  const TempSettingsState({this.tempUnit = TempUnit.celsius});
 
   @override
   List<Object?> get props => [tempUnit];

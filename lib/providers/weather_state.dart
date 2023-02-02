@@ -7,11 +7,11 @@ class WeatherState extends Equatable {
   final Weather? weather;
   final CustomError error;
 
-  WeatherState({
+  const WeatherState({
     this.status = WeatherStatus.initial,
     final CustomError? error,
     this.weather,
-  }) : error = error ?? CustomError();
+  }) : error = error ?? const CustomError();
 
   WeatherState copyWith(
       {WeatherStatus? status, Weather? weather, CustomError? error}) {

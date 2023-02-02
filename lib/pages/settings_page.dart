@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../providers/provider.dart';
@@ -15,8 +14,8 @@ class SettingsPage extends StatelessWidget {
       body: Padding(
         padding: const EdgeInsets.all(10.0),
         child: ListTile(
-          title: Text('Temperature Unit'),
-          subtitle: Text('Celsius / Fahrenheit (Default Celsius)'),
+          title: const Text('Temperature Unit'),
+          subtitle: const Text('Celsius / Fahrenheit (Default Celsius)'),
           trailing: Switch(
             value: context.watch<TempSettingsProvider>().state.tempUnit ==
                 TempUnit.celsius,

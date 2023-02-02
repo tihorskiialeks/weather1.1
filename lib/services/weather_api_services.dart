@@ -36,12 +36,13 @@ class WeatherApiServices {
     if (response.statusCode != 200) {
       throw Exception(_httpErrorHandler(response));
     }
-    final responseBody = json.decode(response.body);
+    final List<Map<String, Object?>> responseBody =
+        json.decode(response.body) as List<Map<String, Object?>>;
 
     if (responseBody.isEmpty) {
       throw WeatherException(message: 'Cannot get location of the $city');
     }
-    return CityCoordinates.fromJson(responseBody);
+    return CityCoordinates.fromJson(responseBody.first);
   }
 
   Future<Weather> getWeather(CityCoordinates cityCoordinates) async {
@@ -60,9 +61,8 @@ class WeatherApiServices {
     if (response.statusCode != 200) {
       throw Exception(_httpErrorHandler(response));
     }
-
-    final Weather weather = Weather.fromJson(json.decode(response.body))
+    final resposeBody = json.decode(response.body) as Map<String, Object?>;
+    return Weather.fromJson(resposeBody)
         .copyWith(name: cityCoordinates.name, country: cityCoordinates.country);
-    return weather;
   }
 }

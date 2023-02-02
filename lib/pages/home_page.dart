@@ -1,17 +1,12 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:http/http.dart' as http;
 import 'package:recase/recase.dart';
 import 'package:weather1/constants/constants.dart';
 import 'package:weather1/pages/search_page.dart';
 import 'package:weather1/pages/settings_page.dart';
 import 'package:weather1/providers/provider.dart';
-import 'package:weather1/providers/weather_provider.dart';
 import '../models/weather.dart';
 import '../widgets/error_dialog.dart';
-import '../services/weather_api_services.dart';
-import '../repositories/weather_repository.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -75,7 +70,7 @@ class _HomePageState extends State<HomePage> {
     final NavigatorState navigator = Navigator.of(context);
     Future<void> searchCity() async {
       _city = await navigator.push(MaterialPageRoute(builder: (context) {
-        return SearchPage();
+        return const SearchPage();
       }));
       print(_city);
       if (_city != null) {
@@ -87,13 +82,13 @@ class _HomePageState extends State<HomePage> {
       appBar: AppBar(
         title: const Text('Weather'),
         actions: [
-          IconButton(onPressed: searchCity, icon: Icon(Icons.search)),
+          IconButton(onPressed: searchCity, icon: const Icon(Icons.search)),
           IconButton(
               onPressed: () {
                 navigator.push(
-                    MaterialPageRoute(builder: (context) => SettingsPage()));
+                    MaterialPageRoute(builder: (context) => const SettingsPage()));
               },
-              icon: Icon(Icons.settings))
+              icon: const Icon(Icons.settings))
         ],
       ),
       body: _showWeather(),
@@ -151,7 +146,7 @@ class _HomePageState extends State<HomePage> {
           children: [
             Text(
               TimeOfDay.fromDateTime(weather.lastUpdated).format(context),
-              style: TextStyle(fontSize: 18),
+              style: const TextStyle(fontSize: 18),
             ),
             const SizedBox(
               width: 10,

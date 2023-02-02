@@ -6,7 +6,6 @@ import 'package:weather1/providers/theme_provider.dart';
 import 'package:weather1/repositories/weather_repository.dart';
 import 'package:weather1/services/weather_api_services.dart';
 import 'pages/home_page.dart';
-import 'providers/weather_provider.dart';
 import 'package:http/http.dart' as http;
 
 void main() async {

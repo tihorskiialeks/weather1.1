@@ -6,20 +6,19 @@ class CityCoordinates extends Equatable {
   final double lon;
   final String country;
 
-  CityCoordinates({
+  const CityCoordinates({
     required this.name,
     required this.lat,
     required this.lon,
     required this.country,
   });
 
-  factory CityCoordinates.fromJson(List<dynamic> json) {
-    final Map<String, dynamic> data = json[0];
+  factory CityCoordinates.fromJson(final Map<String, Object?> data) {
     return CityCoordinates(
-      name: data['name'],
-      lat: data['lat'],
-      lon: data['lon'],
-      country: data['country'],
+      name: data['name']! as String,
+      lat: data['lat']! as double,
+      lon: data['lon']! as double,
+      country: data['country']! as String,
     );
   }
 

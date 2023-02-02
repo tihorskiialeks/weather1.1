@@ -5,10 +5,10 @@ enum AppTheme { light, dark }
 class ThemeState extends Equatable {
   final AppTheme appTheme;
 
-  ThemeState({this.appTheme = AppTheme.light});
+  const ThemeState({this.appTheme = AppTheme.light});
 
   factory ThemeState.initial(){
-    return ThemeState(appTheme: AppTheme.light);
+    return const ThemeState(appTheme: AppTheme.light);
   }
 
   @override

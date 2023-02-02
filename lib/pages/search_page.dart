@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class SearchPage extends StatefulWidget {
@@ -39,7 +38,7 @@ class _SearchPageState extends State<SearchPage> {
                 height: 60,
               ),
               Padding(
-                padding: EdgeInsets.symmetric(horizontal: 30),
+                padding: const EdgeInsets.symmetric(horizontal: 30),
                 child: TextFormField(
                   autofocus: true,
                   style: const TextStyle(fontSize: 18),

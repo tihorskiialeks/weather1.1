@@ -34,4 +34,6 @@ flutter:
   assets:
     - assets/images/loading.gif
     - .env
+dev_dependencies:
+  lints: ^2.0.1
 
