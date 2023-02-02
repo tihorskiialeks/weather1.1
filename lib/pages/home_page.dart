@@ -70,26 +70,24 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-
-
   @override
   Widget build(BuildContext context) {
+    Future<void> searchCity() async {
+      _city =
+          await Navigator.push(context, MaterialPageRoute(builder: (context) {
+        return SearchPage();
+      }));
+      print(_city);
+      if (_city != null) {
+        context.read<WeatherProvider>().fetchWeather(_city!);
+      }
+    }
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Weather'),
         actions: [
-          IconButton(
-              onPressed: () async {
-                _city = await Navigator.push(context,
-                    MaterialPageRoute(builder: (context) {
-                  return SearchPage();
-                }));
-                print(_city);
-                if (_city != null) {
-                  context.read<WeatherProvider>().fetchWeather(_city!);
-                }
-              },
-              icon: Icon(Icons.search)),
+          IconButton(onPressed: searchCity, icon: Icon(Icons.search)),
           IconButton(
               onPressed: () {
                 Navigator.push(context,
@@ -101,6 +99,7 @@ class _HomePageState extends State<HomePage> {
       body: _showWeather(),
     );
   }
+
   Widget _showWeather() {
     final state = context.watch<WeatherProvider>().state;
     if (state.status == WeatherStatus.initial) {
