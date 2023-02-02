@@ -1,12 +1,10 @@
 class WeatherException implements Exception {
-  String message;
+  late final String message;
 
-  WeatherException({this.message = 'Something went wrong'}) {
-    message = 'Weather exception: $message';
+  WeatherException({final String message = 'Something went wrong'}) {
+    this.message = 'Weather exception: $message';
   }
 
   @override
-  String toString() {
-    return message;
-  }
+  String toString() => message;
 }
